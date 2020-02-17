@@ -162,6 +162,9 @@
     NSInteger numOfSection = 0;
     if(arrayRecipe.count > 0)
     {
+        self.tableViewRecipe.backgroundView = nil;
+        self.tableViewRecipe.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+        
         if(![[PublicMethod sharedInstance]getIsFiltered]) {
             return arrayRecipe.count;
         }

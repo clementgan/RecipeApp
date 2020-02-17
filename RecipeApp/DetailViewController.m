@@ -38,13 +38,13 @@
     self.textIngredient.delegate = self;
     self.textInstruction.delegate = self;
     selectedRecipeID = [self.mode isEqualToString:@"add"] ? nil : self.recipeID;
-    selectedCategoryID = @"";
+    selectedCategoryID = @"0";
     selectedImageName = @"";
     self.textCategory.text = [[self.arrayAllCategory firstObject] valueForKey:@"name"];
     NSLog(@"check received array : %@",self.arrayAllCategory);
     
-    self.textIngredient.backgroundColor = [UIColor lightGrayColor];
-    self.textInstruction.backgroundColor = [UIColor lightGrayColor];
+    self.textIngredient.backgroundColor = [UIColor colorWithRed:225/255.0 green:225/255.0 blue:225/255.0 alpha:1.0];
+    self.textInstruction.backgroundColor = [UIColor colorWithRed:225/255.0 green:225/255.0 blue:225/255.0 alpha:1.0];
     
     /*----- image view -----*/
     paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -91,6 +91,15 @@
 
 -(void)btnDonePressed:(id)sender
 {
+    if(self.textName.text.length == 0) {
+        [self showAlert:@"Recipe name is required."];
+        return;
+    }
+    else if([selectedCategoryID isEqualToString:@"0"]) {
+        [self showAlert:@"Please select category."];
+        return;
+    }
+    
     [self executeQuery];
     
 //    if(!_delegate) {
@@ -100,6 +109,16 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+-(void)showAlert:(NSString *)msg
+{
+    UIAlertView *alertView = [[UIAlertView alloc]
+                              initWithTitle:@"Warning"
+                              message:msg
+                              delegate:self
+                              cancelButtonTitle:@"OK"
+                              otherButtonTitles:nil, nil];
+    [alertView show];
+}
 
 #pragma mark - sqlite
 
